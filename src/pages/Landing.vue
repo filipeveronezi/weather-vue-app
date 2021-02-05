@@ -121,10 +121,12 @@ export default defineComponent({
 
 .night {
   background: linear-gradient(to right, #16222a, #3a6073);
+  color: #fff;
 }
 
 .night-cloudy {
   background: linear-gradient(to right, #232526, #414345);
+  color: #fff;
 }
 
 #card {
