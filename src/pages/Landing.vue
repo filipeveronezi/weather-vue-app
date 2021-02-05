@@ -1,10 +1,18 @@
 <template>
-  <div div id="landing" class="day">
-    <div id="card">
-      <ion-icon name="sunny-outline" class="icon"></ion-icon>
-      <p id="degrees">{{ temperature }}°C</p>
-      <p id="city">{{ city }}</p>
-    </div>
+  <div div id="landing" :class="background">
+    <transition enter-active-class="animate__animated animate__flipInX" appear>
+      <div id="card">
+        <button
+          v-is="'ion-icon'"
+          name="refresh-outline"
+          class="refresh"
+          @click="updateInfo"
+        ></button>
+        <span v-is="'ion-icon'" :name="iconName" class="icon"></span>
+        <p id="degrees">{{ temperature }}°C</p>
+        <input id="city" v-model="city" :class="inputClass" />
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -21,15 +29,27 @@ export default defineComponent({
       isCloudy: false,
       temperature: 0,
       ip: '',
-      city: ''
+      city: '',
+      iconName: '',
+      background: '',
+      inputClass: ''
     }
   },
   async created() {
     await this.getIp()
     await this.getCity()
-    await this.getWeather()
+    await this.updateInfo()
+  },
+  mounted() {
+    this.addPlugin('https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.js')
   },
   methods: {
+    addPlugin(path: string) {
+      const plugin = document.createElement('script')
+      plugin.setAttribute('src', path)
+      plugin.async = true
+      document.head.appendChild(plugin)
+    },
     async getIp() {
       try {
         const response = await axios.get('https://api.ipify.org?format=json')
@@ -53,12 +73,34 @@ export default defineComponent({
         )
         const weather = response.data.current
         this.isDay = weather.is_day == 1 ? true : false
-        this.isCloudy = weather.cloud > 50 ? true : false
+        this.isCloudy = weather.cloud > 60 ? true : false
         this.isRaining = weather.condition.text.includes('rain')
         this.temperature = weather.temp_c
       } catch (error) {
         console.warn(error)
       }
+    },
+    getBackground() {
+      if (this.isDay) {
+        this.background = this.isCloudy ? 'day-cloudy' : 'day'
+      } else {
+        this.background = this.isCloudy ? 'night-cloudy' : 'night'
+      }
+      this.inputClass = this.isCloudy ? 'dark' : 'light'
+    },
+    getIcon() {
+      if (this.isRaining) {
+        this.iconName = 'thunderstorm-outline'
+      } else if (this.isDay) {
+        this.iconName = this.isCloudy ? 'cloud-outline' : 'sunny-outline'
+      } else {
+        this.iconName = this.isCloudy ? 'cloudy-night-outline' : 'moon-outline'
+      }
+    },
+    async updateInfo() {
+      await this.getWeather()
+      await this.getIcon()
+      await this.getBackground()
     }
   }
 })
@@ -79,10 +121,12 @@ export default defineComponent({
 
 .day {
   background: linear-gradient(to right, #ffefba, #ffffff);
+  color: #000;
 }
 
 .day-cloudy {
   background: linear-gradient(to right, #304352, #d7d2cc);
+  color: #fff;
 }
 
 .night {
@@ -99,10 +143,12 @@ export default defineComponent({
   min-height: 350px;
   width: 15%;
   min-width: 250px;
+
   display: grid;
   grid-template-columns: auto;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: 30px 1fr 1fr 1fr;
   grid-gap: 0;
+
   justify-content: stretch;
   align-content: stretch;
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
@@ -111,6 +157,7 @@ export default defineComponent({
   backdrop-filter: blur(5px);
 }
 
+.refresh,
 .icon,
 #degrees,
 #city {
@@ -123,16 +170,44 @@ export default defineComponent({
 
 #degrees {
   font-size: 2.4rem;
+  cursor: default;
 }
 
 #city {
   font-size: 1.5rem;
+  width: 70%;
+  background: none;
+  outline: none;
+  text-align: center;
 }
 
-img {
-  position: absolute;
-  width: 100%;
-  top: -55%;
-  z-index: 0;
+.refresh {
+  font-size: 20px;
+  left: 36%;
+  cursor: pointer;
+  transition: 0.5s;
+  margin-top: 5px;
+}
+
+.refresh:hover {
+  transform: rotate(180deg);
+}
+
+.dark {
+  color: #fff;
+  border: none;
+}
+
+.light {
+  color: #000;
+  border: none;
+}
+
+.dark:hover {
+  border-bottom: solid 1px #fff;
+}
+
+.light:hover {
+  border-bottom: solid 1px #000;
 }
 </style>
