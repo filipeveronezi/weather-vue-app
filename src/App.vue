@@ -1,13 +1,23 @@
 <template>
   <div id="app">
-    <h1>Hello</h1>
+    <Landing />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import Landing from '@/pages/Landing.vue'
 
-export default defineComponent({})
+export default defineComponent({
+  components: {
+    Landing
+  }
+})
 </script>
 
-<style></style>
+<style>
+#app {
+  height: 100vh;
+  width: 100%;
+}
+</style>
