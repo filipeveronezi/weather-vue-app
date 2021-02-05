@@ -28,7 +28,6 @@ export default defineComponent({
       isRaining: false,
       isCloudy: false,
       temperature: 0,
-      ip: '',
       city: '',
       iconName: '',
       background: '',
@@ -36,7 +35,6 @@ export default defineComponent({
     }
   },
   async created() {
-    await this.getIp()
     await this.getCity()
     await this.updateInfo()
   },
@@ -50,17 +48,9 @@ export default defineComponent({
       plugin.async = true
       document.head.appendChild(plugin)
     },
-    async getIp() {
-      try {
-        const response = await axios.get('https://api.ipify.org?format=json')
-        this.ip = response.data.ip.toString()
-      } catch (error) {
-        console.warn(error)
-      }
-    },
     async getCity() {
       try {
-        const response = await axios.get(`http://ip-api.com/json/${this.ip}`)
+        const response = await axios.get(`https://ipinfo.io/json`)
         this.city = response.data.city.toString()
       } catch (error) {
         console.warn(error)
