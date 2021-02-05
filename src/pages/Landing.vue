@@ -5,13 +5,6 @@
       <p id="degrees">{{ temperature }}°C</p>
       <p id="city">{{ city }}</p>
     </div>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-      <path
-        fill="#FFF"
-        fill-opacity="1"
-        d="M0,160L60,176C120,192,240,224,360,213.3C480,203,600,149,720,154.7C840,160,960,224,1080,229.3C1200,235,1320,181,1380,154.7L1440,128L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
-      ></path>
-    </svg>
   </div>
 </template>
 
@@ -72,12 +65,16 @@ export default defineComponent({
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap');
+
 #landing {
   height: 100%;
+  max-height: 100vh;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: 'Oswald', sans-serif;
 }
 
 .day {
@@ -132,10 +129,10 @@ export default defineComponent({
   font-size: 1.5rem;
 }
 
-svg {
+img {
   position: absolute;
-  bottom: 0;
-  color: #000;
+  width: 100%;
+  top: -55%;
   z-index: 0;
 }
 </style>
