@@ -73,7 +73,7 @@ export default defineComponent({
     getBackground() {
       if (this.isDay) {
         this.background = this.isCloudy ? 'day-cloudy' : 'day'
-        this.inputClass = this.isCloudy ? 'light' : 'dark'
+        this.inputClass = this.isCloudy ? 'dark' : 'light'
       } else {
         this.background = this.isCloudy ? 'night-cloudy' : 'night'
         this.inputClass = 'dark'
