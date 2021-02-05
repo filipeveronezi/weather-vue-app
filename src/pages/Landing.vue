@@ -175,6 +175,7 @@ export default defineComponent({
 
 #city {
   font-size: 1.5rem;
+  font-family: 'Oswald', sans-serif;
   width: 70%;
   background: none;
   outline: none;
