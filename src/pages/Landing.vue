@@ -49,11 +49,17 @@ export default defineComponent({
       document.head.appendChild(plugin)
     },
     async getCity() {
-      try {
-        const response = await axios.get(`https://ipinfo.io/json`)
-        this.city = response.data.city.toString()
-      } catch (error) {
-        console.warn(error)
+      const city = window.localStorage.getItem('city')
+      this.city = city === null ? '' : city
+
+      if (this.city === '') {
+        try {
+          const response = await axios.get(`https://ipinfo.io/json`)
+          this.city = response.data.city.toString()
+          window.localStorage.setItem('city', this.city)
+        } catch (error) {
+          console.warn(error)
+        }
       }
     },
     async getWeather() {
