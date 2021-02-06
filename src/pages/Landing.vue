@@ -3,7 +3,7 @@
     <looping-rhombuses-spinner
       :animation-duration="2000"
       :size="65"
-      :color="isDay && !isCloudy ? '#000' : '#fff'"
+      :color="isDay && !isCloudy ? '#0a0a0a' : '#fff'"
       id="loading"
       v-if="loading"
       class="animate__animated animate__fadeIn"
@@ -68,6 +68,7 @@ export default defineComponent({
     LoopingRhombusesSpinner
   },
   async created() {
+    this.background = 'default-background'
     await this.getCity()
     await this.updateInfo()
   },
@@ -153,6 +154,10 @@ export default defineComponent({
   font-family: 'Oswald', sans-serif;
 }
 
+.default-background {
+  background: linear-gradient(to right, #232526, #414345);
+}
+
 .day {
   background: linear-gradient(to right, #ffefba, #ffffff);
   color: #000;
@@ -169,7 +174,7 @@ export default defineComponent({
 }
 
 .night-cloudy {
-  background: linear-gradient(to right, #232526, #414345);
+  background: linear-gradient(to right, #000000, #434343);
   color: #fff;
 }
 
