@@ -13,7 +13,7 @@
         <button
           v-is="'ion-icon'"
           name="refresh-outline"
-          class="animate__animated animate__fadeInUp animate__faster refresh"
+          class="refresh"
           @click="updateInfo"
           v-if="!loading"
         ></button>
@@ -232,7 +232,6 @@ export default defineComponent({
 
 .refresh {
   font-size: 20px;
-  left: 36%;
   cursor: pointer;
   transition: 0.5s;
   margin-top: 5px;
