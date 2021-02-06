@@ -1,16 +1,44 @@
 <template>
   <div div id="landing" :class="background">
+    <looping-rhombuses-spinner
+      :animation-duration="2000"
+      :size="65"
+      :color="isDay && !isCloudy ? '#000' : '#fff'"
+      id="loading"
+      v-if="loading"
+      class="animate__animated animate__fadeIn"
+    />
     <transition enter-active-class="animate__animated animate__flipInX" appear>
       <div id="card">
         <button
           v-is="'ion-icon'"
           name="refresh-outline"
-          class="refresh"
+          class="animate__animated animate__fadeInUp animate__faster refresh"
           @click="updateInfo"
+          v-if="!loading"
         ></button>
-        <span v-is="'ion-icon'" :name="iconName" class="icon"></span>
-        <p id="degrees">{{ temperature }}°C</p>
-        <input id="city" v-model="city" :class="inputClass" />
+        <span
+          v-is="'ion-icon'"
+          :name="iconName"
+          class="animate__animated animate__fadeInUp animate__faster icon"
+          v-if="!loading"
+        ></span>
+        <p
+          id="degrees"
+          v-if="!loading"
+          class="animate__animated animate__fadeInUp animate__faster"
+        >
+          {{ temperature }}°C
+        </p>
+        <input
+          id="city"
+          v-model="city"
+          :class="[
+            'animate__animated animate__fadeInUp animate__faster',
+            inputClass
+          ]"
+          v-if="!loading"
+        />
       </div>
     </transition>
   </div>
@@ -20,6 +48,7 @@
 import { defineComponent } from 'vue'
 import axios from 'axios'
 import WeatherAPI from '@/utils/WeatherAPI'
+import { LoopingRhombusesSpinner } from 'epic-spinners'
 
 export default defineComponent({
   data() {
@@ -31,8 +60,12 @@ export default defineComponent({
       city: '',
       iconName: '',
       background: '',
-      inputClass: ''
+      inputClass: '',
+      loading: false
     }
+  },
+  components: {
+    LoopingRhombusesSpinner
   },
   async created() {
     await this.getCity()
@@ -58,6 +91,7 @@ export default defineComponent({
           this.city = response.data.city.toString()
           window.localStorage.setItem('city', this.city)
         } catch (error) {
+          this.city = 'São Paulo'
           console.warn(error)
         }
       }
@@ -95,9 +129,12 @@ export default defineComponent({
       }
     },
     async updateInfo() {
+      this.loading = true
+      await new Promise((r) => setTimeout(r, 1500))
       await this.getWeather()
       await this.getIcon()
       await this.getBackground()
+      this.loading = false
     }
   }
 })
@@ -154,6 +191,13 @@ export default defineComponent({
   border-radius: 5px;
   background-color: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(5px);
+
+  position: relative;
+}
+
+#loading {
+  position: absolute;
+  z-index: 2;
 }
 
 .refresh,
