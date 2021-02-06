@@ -1,24 +1,12 @@
-# app
+# [🌤 Weather Vue App](https://filipeveronezi.github.io/weather-vue-app/)
 
-## Project setup
-```
-yarn install
-```
+![image-20210206012334583](/Users/filipe/Library/Application Support/typora-user-images/image-20210206012334583.png)
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+## 💻 Main Tech
 
-### Compiles and minifies for production
-```
-yarn build
-```
+- Vue 3
+- Typescript
+- Axios
 
-### Lints and fixes files
-```
-yarn lint
-```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+
