@@ -1,4 +1,4 @@
-# [🌤 Weather Vue App](https://filipeveronezi.github.io/weather-vue-app/)
+# [🌤 Weather Vue App](https://weather.filipeveronezi.dev.br)
 
 Simple weather application.
 Based on API requests, the application will try to select the user's location at first.
